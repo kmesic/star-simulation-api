@@ -1,0 +1,139 @@
+openapi: 3.0.0
+info:
+  title: star-simulation
+  version: '1.0'
+  description: ''
+servers:
+  - url: 'http://localhost:3000'
+paths:
+  /simulation/create:
+    post:
+      summary: create
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  drones:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+                  suns:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+      operationId: post-simulation
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                width:
+                  type: integer
+                height:
+                  type: integer
+                drones:
+                  type: integer
+                droneInfo:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      x:
+                        type: integer
+                      'y':
+                        type: integer
+                      direction:
+                        type: string
+                      strategy:
+                        type: integer
+                suns:
+                  type: integer
+                sunInfo:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      x:
+                        type: number
+                      'y':
+                        type: number
+                turns:
+                  type: integer
+          application/xml:
+            schema:
+              type: object
+              properties: {}
+    parameters: []
+  '/simulation/state/{turn}':
+    parameters:
+      - schema:
+          type: number
+        name: turn
+        in: path
+        required: true
+    get:
+      summary: Runs simulation
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  drones:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+                  suns:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+                  stars:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+              examples:
+                example-1: {}
+      operationId: get-simulation-state-turn
+      description: Get the current state of the simulation at a specific turn
+components:
+  schemas: {}
