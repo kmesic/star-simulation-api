@@ -113,6 +113,8 @@ paths:
                           type: integer
                         'y':
                           type: integer
+                        direction:
+                          type: string
                   suns:
                     type: array
                     items:
