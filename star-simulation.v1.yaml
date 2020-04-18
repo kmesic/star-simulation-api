@@ -7,6 +7,11 @@ servers:
   - url: 'http://localhost:3000'
 paths:
   /simulation/create:
+    parameters:
+      - schema:
+          type: string
+        name: file
+        required: true
     post:
       summary: create
       tags: []
@@ -18,6 +23,30 @@ paths:
               schema:
                 type: object
                 properties:
+                  turnLimit:
+                    type: int
+                  completedTurns:
+                    type: int
+                  currentTurnPos:
+                    type: int
+                  n_drones: 
+                    type: int
+                  n_suns:
+                    type: int
+                  n_stars:
+                    type: int
+                  potentialCellsToExplore:
+                    type: int
+                  exporedCells:
+                    type: int
+                  unExporedCells:
+                    type: int
+                  regionSize:
+                    type: int
+                  regionX:
+                    type: int
+                  regionY:
+                    type: int
                   drones:
                     type: array
                     items:
@@ -29,70 +58,38 @@ paths:
                           type: integer
                         'y':
                           type: integer
+                        direction:
+                          type: string
                   suns:
                     type: array
                     items:
                       type: object
                       properties:
-                        id:
-                          type: integer
                         x:
                           type: integer
                         'y':
                           type: integer
-      operationId: post-simulation
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                width:
-                  type: integer
-                height:
-                  type: integer
-                drones:
-                  type: integer
-                droneInfo:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      x:
-                        type: integer
-                      'y':
-                        type: integer
-                      direction:
-                        type: string
-                      strategy:
-                        type: integer
-                suns:
-                  type: integer
-                sunInfo:
-                  type: array
-                  items:
-                    type: object
-                    properties:
-                      x:
-                        type: number
-                      'y':
-                        type: number
-                turns:
-                  type: integer
+                  stars:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
           application/xml:
             schema:
               type: object
               properties: {}
-    parameters: []
-  '/simulation/state/{turn}':
+
+  /simulation/save:
     parameters:
-      - schema:
-          type: number
-        name: turn
-        in: path
-        required: true
+      schema:
+        type: string
+        name: path
     get:
-      summary: Runs simulation
+      summary: Saves simulation
       tags: []
       responses:
         '200':
@@ -102,6 +99,30 @@ paths:
               schema:
                 type: object
                 properties:
+                  turnLimit:
+                    type: int
+                  completedTurns:
+                    type: int
+                  currentTurnPos:
+                    type: int
+                  n_drones: 
+                    type: int
+                  n_suns:
+                    type: int
+                  n_stars:
+                    type: int
+                  potentialCellsToExplore:
+                    type: int
+                  exporedCells:
+                    type: int
+                  unExporedCells:
+                    type: int
+                  regionSize:
+                    type: int
+                  regionX:
+                    type: int
+                  regionY:
+                    type: int
                   drones:
                     type: array
                     items:
@@ -135,7 +156,234 @@ paths:
                           type: integer
               examples:
                 example-1: {}
-      operationId: get-simulation-state-turn
-      description: Get the current state of the simulation at a specific turn
+      operationId: save
+      description: Saves the current simulation to a file
+
+  /simulation/rewind:
+    parameters:
+      - schema:
+          type: number
+        name: n_steps
+        required: true
+    get:
+      summary: Rewinds simulation
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  turnLimit:
+                    type: int
+                  completedTurns:
+                    type: int
+                  currentTurnPos:
+                    type: int
+                  n_drones: 
+                    type: int
+                  n_suns:
+                    type: int
+                  n_stars:
+                    type: int
+                  potentialCellsToExplore:
+                    type: int
+                  exporedCells:
+                    type: int
+                  unExporedCells:
+                    type: int
+                  regionSize:
+                    type: int
+                  regionX:
+                    type: int
+                  regionY:
+                    type: int
+                  drones:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+                        direction:
+                          type: string
+                  suns:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+                  stars:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+                example-1: {}
+      operationId: rewind
+      description: Rewind current state of the simulation by a certain number of steps
+
+  /simulation/forward:
+    parameters:
+      - schema:
+          type: number
+        name: n_steps
+        required: true
+    get:
+      summary: Forwards simulation
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  turnLimit:
+                    type: int
+                  completedTurns:
+                    type: int
+                  currentTurnPos:
+                    type: int
+                  n_drones: 
+                    type: int
+                  n_suns:
+                    type: int
+                  n_stars:
+                    type: int
+                  potentialCellsToExplore:
+                    type: int
+                  exporedCells:
+                    type: int
+                  unExporedCells:
+                    type: int
+                  regionSize:
+                    type: int
+                  regionX:
+                    type: int
+                  regionY:
+                    type: int
+                  drones:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+                        direction:
+                          type: string
+                  suns:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+                  stars:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+              examples:
+                example-1: {}
+      operationId: forward
+      description: Forwards the current state of the simulation by a certain number of steps
+      
+  /simulation/replay:
+    parameters: []
+    get:
+      summary: Replays simulation
+      tags: []
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  turnLimit:
+                    type: int
+                  completedTurns:
+                    type: int
+                  currentTurnPos:
+                    type: int
+                  n_drones: 
+                    type: int
+                  n_suns:
+                    type: int
+                  n_stars:
+                    type: int
+                  potentialCellsToExplore:
+                    type: int
+                  exporedCells:
+                    type: int
+                  unExporedCells:
+                    type: int
+                  regionSize:
+                    type: int
+                  regionX:
+                    type: int
+                  regionY:
+                    type: int
+                  drones:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        id:
+                          type: integer
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+                        direction:
+                          type: string
+                  suns:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+                  stars:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        x:
+                          type: integer
+                        'y':
+                          type: integer
+              examples:
+                example-1: {}
+      operationId: replays
+      description: Replays the current state of the simulation - rewind 1 - forward 1
+
 components:
   schemas: {}
